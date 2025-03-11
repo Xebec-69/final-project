@@ -20,9 +20,12 @@ function App() {
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
           <span className="font-bold text-black">Home</span>
           <span className="mx-2 text-gray-400">|</span>
-          <span className="text-orange-500 font-semibold">
+          <button
+            className="text-customOrange font-semibold"
+            onClick={() => setIsModalOpen(true)}
+          >
             Let's personalize your trips!
-          </span>
+          </button>
         </div>
         <Menu />
       </div>
@@ -31,30 +34,35 @@ function App() {
       <div className="flex justify-center items-center mt-4">
         <div className="shadow w-1/2 rounded-full bg-white px-8 py-6 flex justify-between items-center">
           <div>
-            <p>title</p>
-            <p>description</p>
+            <p>Where</p>
+            <p className="text-sm opacity-50">Search Destination </p>
           </div>
           <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
           <div>
-            <p>title</p>
-            <p>description</p>
+            <p>Check in</p>
+            <p className="text-sm opacity-50">Add dates</p>
           </div>
           <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
           <div>
-            <p>title</p>
-            <p>description</p>
+            <p>Check out</p>
+            <p className="text-sm opacity-50">Add dates</p>
           </div>
-          <div className="bg-orange-300 p-4 rounded-full">
+          <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
+          <div>
+            <p>Who</p>
+            <p className="text-sm opacity-50">Add guests</p>
+          </div>
+          <div className="bg-customOrange p-4 rounded-full">
             <Search width={30} height={30} className="text-white" />
           </div>
         </div>
       </div>
       <div className="p-10">
-        <div className="flex space-x-2 gap-6">
+        <div className="flex space-x-2 ">
           {/* Legacy Button */} <IconScroll />
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center w-[140px] space-x-4 border border-orange-400 text-orange-500 px-2 py-2 rounded-lg shadow-sm hover:bg-orange-50"
+            className="flex items-center w-36  border border-customOrange text-customOrange px-4 py-2 rounded-lg shadow-sm hover:bg-orange-50"
           >
             <img
               src="/images/ph_butterfly-light.png"
@@ -68,13 +76,13 @@ function App() {
             onClose={() => setIsModalOpen(false)}
           />
           {/* Filters Button */}
-          <button className="flex items-center w-[140px] space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
+          <button className="flex items-center w-36 space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
             <Sliders className="h-5 w-5" />
             <span className="font-medium">Filters</span>
           </button>
         </div>
       </div>
-      <div className="ml-10 mr-5 flex flex-wrap gap-8 p-2 justify-start">
+      <div className="ml-[120px] mr-[80px] flex flex-wrap gap-8 p-2 justify-start">
         <Items
           image="https://s3-alpha-sig.figma.com/img/3325/ae4a/b136650155d2d3a04ed88f6caa0eea7c?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=YxiBQGPPKq6j0h0vPCOKQSPzxuhwdJFX89mP8VqNbcCfqg7mtxVa20R6fJ4nBwGS5x2Iu4J~kcS1y-CfYEro3YAnQcqiAdCLrPnkmUdPfy8LFEOEWSgL5DXmyf3hIcvo83I~PDMDFBB0Q2WZaTR8YjMH3dNvsejSDRw4Um4Btl32yojThJMI~Nd1oFp9h7KYNyl422dIQoU2MdDFvD-jXXOc7CVYTFYScaJedhxohUEFH4Bt~YiOqfAUffkl3M15dJRIUtxlKdc7NS3TrBWj43676-NzfV7Zxd-pBlULHrxdrYVkITuXOFVi9mH5~l~oy3XC2Fj8~csBo0Etr-4GXw__"
           title="Cozy Lake Cabin"

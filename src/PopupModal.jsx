@@ -54,6 +54,22 @@ const TravelModal = ({ isOpen, onClose }) => {
     }
   };
 
+  const [selectedTransport, setSelectedTransport] = useState(null);
+  const [selectedAccommodation, setSelectedAccommodation] = useState(null);
+  const [selectedInterest, setSelectedInterest] = useState(null);
+
+  const handleSelectTransport = (item) => {
+    setSelectedTransport(item);
+  };
+
+  const handleSelectAccommodation = (item) => {
+    setSelectedAccommodation(item);
+  };
+
+  const handleSelectInterest = (item) => {
+    setSelectedInterest(item);
+  };
+
   if (!isOpen) return null;
 
   const handleSelection = (category, value) => {
@@ -96,7 +112,7 @@ const TravelModal = ({ isOpen, onClose }) => {
               <li>✅ Discover trips that match your style</li>
             </ul>
             <button
-              className="mt-6 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-lg"
+              className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
               onClick={() => setStep(2)}
             >
               Let’s Get Started
@@ -206,7 +222,7 @@ const TravelModal = ({ isOpen, onClose }) => {
             </div>
             <div className="mt-6 flex justify-end">
               <button
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg text-lg"
+                className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
                 onClick={() => setStep(3)}
               >
                 Continue
@@ -368,10 +384,126 @@ const TravelModal = ({ isOpen, onClose }) => {
               {/* Continue Button */}
               <div className="text-right">
                 <button
-                  className="bg-orange-500 text-white rounded-lg px-6 py-2 hover:bg-orange-600"
-                  onClick={onClose}
+                  className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
+                  onClick={() => setStep(4)}
                 >
                   Continue
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        {step === 4 && (
+          <>
+            <div className="p-8 ">
+              {/* Title */}
+              <h1 className="text-3xl font-bold text-orange-600 mb-8 text-left">
+                Travel & Experience Preferences
+              </h1>
+
+              {/* Preferred Transport */}
+              <div className="mb-8 text-left">
+                <h2 className="font-semibold  text-2xl mb-4">
+                  Preferred Transport
+                </h2>
+                <div className="flex gap-3 flex-wrap">
+                  {["Flight", "Train", "Road Trip", "Cruise"].map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => handleSelectTransport(item)}
+                      className={`px-4 py-2 border rounded-md shadow-sm hover:bg-gray-100 ${
+                        selectedTransport === item
+                          ? "bg-orange-500 text-white"
+                          : ""
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Preferred Accommodation Type */}
+              <div className="mb-8 text-left">
+                <h2 className="font-semibold text-2xl mb-4">
+                  Preferred Accommodation Type
+                </h2>
+                <div className="flex gap-3 flex-wrap">
+                  {["Hotel", "Villa", "Camping", "Hostel", "Resort"].map(
+                    (item) => (
+                      <button
+                        key={item}
+                        onClick={() => handleSelectAccommodation(item)}
+                        className={`px-4 py-2 border rounded-md shadow-sm hover:bg-gray-100 ${
+                          selectedAccommodation === item
+                            ? "bg-orange-500 text-white"
+                            : ""
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Top Interests & Activities */}
+              <div className="mb-8 text-left">
+                <h2 className="font-semibold text-2xl mb-4">
+                  Top Interests & Activities
+                </h2>
+                <div className="flex gap-3 flex-wrap">
+                  {[
+                    "Arts & Museums",
+                    "Music & Nightlife",
+                    "Fitness & Wellness",
+                    "Literature & Bookstores",
+                    "Wildlife & Safari",
+                    "Sports & Outdoor Activities",
+                  ].map((item) => (
+                    <button
+                      key={item}
+                      onClick={() => handleSelectInterest(item)}
+                      className={`px-4 py-2 border rounded-md shadow-sm hover:bg-gray-100 ${
+                        selectedInterest === item
+                          ? "bg-orange-500 text-white"
+                          : ""
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Continue Button */}
+              <div className="absolute bottom-4 right-4">
+                <button
+                  className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
+                  onClick={() => setStep(5)}
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        {step === 5 && (
+          <>
+            <div className="flex items-center justify-center  bg-white">
+              <div className="text-center">
+                <h1 className="text-4xl font-semibold text-orange-500 mb-4">
+                  You’re all set!
+                </h1>
+                <p className=" pt-5  text-2xl text-gray-600 mb-6">
+                  We’ve saved your preferences. Get ready for <br />
+                  personalized travel recommendations
+                </p>
+                <button
+                  onClick={onClose}
+                  className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
+                >
+                  Start Exploring
                 </button>
               </div>
             </div>

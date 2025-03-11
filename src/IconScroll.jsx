@@ -213,7 +213,7 @@ const IconScroll = () => {
   };
 
   return (
-    <div className="w-[75vw] p-4 relative ml-5">
+    <div className="w-[75vw] p-4 relative ">
       {/* Scroll buttons */}
       <div className="absolute inset-y-0 left-0 flex items-center">
         <button
