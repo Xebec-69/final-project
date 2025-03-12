@@ -82,13 +82,13 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="ml-[120px] mr-[80px] flex flex-wrap gap-8 p-2 justify-start">
+      <div className="sm:ml-[130px]  sm:mr-[80px] flex flex-wrap gap-8 p-2 justify-start">
         <Items
-          image="https://s3-alpha-sig.figma.com/img/3325/ae4a/b136650155d2d3a04ed88f6caa0eea7c?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=YxiBQGPPKq6j0h0vPCOKQSPzxuhwdJFX89mP8VqNbcCfqg7mtxVa20R6fJ4nBwGS5x2Iu4J~kcS1y-CfYEro3YAnQcqiAdCLrPnkmUdPfy8LFEOEWSgL5DXmyf3hIcvo83I~PDMDFBB0Q2WZaTR8YjMH3dNvsejSDRw4Um4Btl32yojThJMI~Nd1oFp9h7KYNyl422dIQoU2MdDFvD-jXXOc7CVYTFYScaJedhxohUEFH4Bt~YiOqfAUffkl3M15dJRIUtxlKdc7NS3TrBWj43676-NzfV7Zxd-pBlULHrxdrYVkITuXOFVi9mH5~l~oy3XC2Fj8~csBo0Etr-4GXw__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
-          rating="4.8"
-          price="320"
+          image="https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/4a90da4f-0eb7-4a89-a320-ba28b96ec459.jpeg?im_w=1200"
+          title="Luxury Seafront Villa"
+          location="Vis, Croatia"
+          rating="4"
+          price="710"
           description="Private cabin with stunning views"
         />
         <Items
@@ -100,11 +100,35 @@ function App() {
           description="Private cabin with stunning views"
         />
         <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
+          image="https://s3-alpha-sig.figma.com/img/8cd2/4fdc/4f51f8d45316fdad0fa8d9c5c91cf23d?Expires=1742774400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=l6Ufj3sYmv7DiWlqMcvqGGajDNlwvQVN2fIkn6SRKaq4gA3AVvGk3iuuGJohBdu10jgwURjMMlTxnaucl4u1G6iAHan0BL~eCRvb63FVsaqutXhwNFy6spNSO5c6VxFfbr0jX9jRjtUayBl-dA8VaOsTsBR1e-EHBmJjR-0LmN1AqDIsjlMG4veBVvFL2-kCEOPMmH~hOl6qOf7mazlqYEM~t9aE1VB90hMcm4101ol~h-pEvR-D4IiOrHYrwQsnpS7CFcMA2oohjQ5Md3PZJcogWaxJN2Y9ZJuuSvOY5f8tnjBb3jjGWx8SWfNJSRT3jcXF696ZB6ey~lklHyGYHg__"
+          title="Lake Lohja"
+          location=" Finland"
+          rating="5"
+          price="262"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-1275109301584784801/original/4f28c6e4-9505-4890-87a6-32b983414045.jpeg?im_w=1200"
+          title=" Wild Hunter's Mountain Cabin"
+          location="South Africa"
           rating="4.8"
-          price="320"
+          price="82"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-2842199/original/06dfa908-a5d4-4ff9-8186-10e8fadab571.jpeg?im_w=1200"
+          title="Villa Perla"
+          location="Luka, Croatia"
+          rating="4.8"
+          price="209"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/4a90da4f-0eb7-4a89-a320-ba28b96ec459.jpeg?im_w=1200"
+          title="Luxury Seafront Villa"
+          location="Vis, Croatia"
+          rating="4"
+          price="710"
           description="Private cabin with stunning views"
         />
         <Items
@@ -116,11 +140,35 @@ function App() {
           description="Private cabin with stunning views"
         />
         <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
+          image="https://s3-alpha-sig.figma.com/img/8cd2/4fdc/4f51f8d45316fdad0fa8d9c5c91cf23d?Expires=1742774400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=l6Ufj3sYmv7DiWlqMcvqGGajDNlwvQVN2fIkn6SRKaq4gA3AVvGk3iuuGJohBdu10jgwURjMMlTxnaucl4u1G6iAHan0BL~eCRvb63FVsaqutXhwNFy6spNSO5c6VxFfbr0jX9jRjtUayBl-dA8VaOsTsBR1e-EHBmJjR-0LmN1AqDIsjlMG4veBVvFL2-kCEOPMmH~hOl6qOf7mazlqYEM~t9aE1VB90hMcm4101ol~h-pEvR-D4IiOrHYrwQsnpS7CFcMA2oohjQ5Md3PZJcogWaxJN2Y9ZJuuSvOY5f8tnjBb3jjGWx8SWfNJSRT3jcXF696ZB6ey~lklHyGYHg__"
+          title="Lake Lohja"
+          location=" Finland"
+          rating="5"
+          price="262"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-1275109301584784801/original/4f28c6e4-9505-4890-87a6-32b983414045.jpeg?im_w=1200"
+          title=" Wild Hunter's Mountain Cabin"
+          location="South Africa"
           rating="4.8"
-          price="320"
+          price="82"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-2842199/original/06dfa908-a5d4-4ff9-8186-10e8fadab571.jpeg?im_w=1200"
+          title="Villa Perla"
+          location="Luka, Croatia"
+          rating="4.8"
+          price="209"
+          description="Private cabin with stunning views"
+        />
+        <Items
+          image="https://a0.muscache.com/im/pictures/prohost-api/Hosting-48729525/original/4a90da4f-0eb7-4a89-a320-ba28b96ec459.jpeg?im_w=1200"
+          title="Luxury Seafront Villa"
+          location="Vis, Croatia"
+          rating="4"
+          price="710"
           description="Private cabin with stunning views"
         />
         <Items
@@ -132,43 +180,27 @@ function App() {
           description="Private cabin with stunning views"
         />
         <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
-          rating="4.8"
-          price="320"
+          image="https://s3-alpha-sig.figma.com/img/8cd2/4fdc/4f51f8d45316fdad0fa8d9c5c91cf23d?Expires=1742774400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=l6Ufj3sYmv7DiWlqMcvqGGajDNlwvQVN2fIkn6SRKaq4gA3AVvGk3iuuGJohBdu10jgwURjMMlTxnaucl4u1G6iAHan0BL~eCRvb63FVsaqutXhwNFy6spNSO5c6VxFfbr0jX9jRjtUayBl-dA8VaOsTsBR1e-EHBmJjR-0LmN1AqDIsjlMG4veBVvFL2-kCEOPMmH~hOl6qOf7mazlqYEM~t9aE1VB90hMcm4101ol~h-pEvR-D4IiOrHYrwQsnpS7CFcMA2oohjQ5Md3PZJcogWaxJN2Y9ZJuuSvOY5f8tnjBb3jjGWx8SWfNJSRT3jcXF696ZB6ey~lklHyGYHg__"
+          title="Lake Lohja"
+          location=" Finland"
+          rating="5"
+          price="262"
           description="Private cabin with stunning views"
         />
         <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-1275109301584784801/original/4f28c6e4-9505-4890-87a6-32b983414045.jpeg?im_w=1200"
+          title=" Wild Hunter's Mountain Cabin"
+          location="South Africa"
           rating="4.8"
-          price="320"
+          price="82"
           description="Private cabin with stunning views"
         />
         <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
+          image="https://a0.muscache.com/im/pictures/miso/Hosting-2842199/original/06dfa908-a5d4-4ff9-8186-10e8fadab571.jpeg?im_w=1200"
+          title="Villa Perla"
+          location="Luka, Croatia"
           rating="4.8"
-          price="320"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
-          rating="4.8"
-          price="320"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          image="https://s3-alpha-sig.figma.com/img/8853/92d4/cd9734c119d176944d6b244c8359b537?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=aP~vmstzXUFrSxpM3rOvFHpgFZAgSkZEcPWpYAghd95-X4gewcAZltvfwFUXcsaZJXyX0CHfBz9Newkssl6uO-oyDng8Pf0k0SOeDfH56ms3P9KXu1qZ1jzHoqvrT0gj4zIXgrtCQQgruLoiwuz~rtOVAMnse9vIOR6xwlVafxXcrePdamy75lD3qNWaVEWEFhOBCFLnV816JsQpLuFC7wmpr814yKsy-YY4YA1SRDRezjaJielw4~04M3wE~jq7yRa-crfTf7sb1-Eac4HGYnbxnSFWslXUTvK5kpA2w-xlaDtFsu7ZN4KO8u0E7U5rv54ZpHbjQa81lgRpEC1k5g__"
-          title="Cozy Lake Cabin"
-          location="Helsinki, Finland"
-          rating="4.8"
-          price="320"
+          price="209"
           description="Private cabin with stunning views"
         />
       </div>

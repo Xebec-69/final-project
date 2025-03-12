@@ -22,7 +22,7 @@ const Items = ({ image, title, location, rating, price, description }) => {
         <p className="text-sm text-gray-500">{description}</p>
         <div className="flex justify-between items-center mt-2">
           <span className="text-sm text-gray-600">⭐ {rating}</span>
-          <span className="text-lg font-bold">${price} / night</span>
+          <span className="text-lg ">${price} / night</span>
         </div>
       </div>
     </div>
