@@ -17,12 +17,18 @@ const Items = ({ images, title, location, rating, price, description }) => {
   };
 
   const openImage = () => {
-    window.open(images[currentImageIndex], "_blank");
+    const listingData = { images, title, location, rating, price, description };
+    localStorage.setItem("listingData", JSON.stringify(listingData));
+
+    // Open new tab with the listing page
+    window.open(
+      `/listing/${title.replace(/\s+/g, "-").toLowerCase()}`,
+      "_blank"
+    );
   };
 
   return (
     <div className="w-64 rounded-2xl shadow-lg overflow-hidden bg-white">
-      {/* Image Section */}
       <div className="relative">
         <img
           src={images[currentImageIndex]}
@@ -30,13 +36,9 @@ const Items = ({ images, title, location, rating, price, description }) => {
           className="w-full h-56 object-cover cursor-pointer"
           onClick={openImage}
         />
-        <div className="absolute top-2 left-2 bg-white px-2 py-1 rounded-full text-xs font-medium shadow">
-          Guest Favorite
-        </div>
         <button className="absolute top-2 right-2 bg-white p-1 rounded-full shadow">
           <Heart className="h-5 w-5 text-gray-600" />
         </button>
-        {/* Navigation Buttons */}
         <button
           onClick={prevImage}
           className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-1 rounded-full shadow"
@@ -51,7 +53,6 @@ const Items = ({ images, title, location, rating, price, description }) => {
         </button>
       </div>
 
-      {/* Content Section */}
       <div className="p-4">
         <h2 className="text-lg font-bold">{title}</h2>
         <p className="text-sm text-gray-600">{location}</p>
