@@ -8,7 +8,7 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/8ccd/3ac9/b120b5c5f7b2c3f62b3184779139fe7f?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dUHrxd4Kgn7x7sn0wQd784FqZPeSVb1s3l5I3SsErzYNLf63GhULm9a96YJKTt90hZW~pzbUrIXeJjRScZv6y0kDumiHofDkoC5X8NCVTfWn2OZ0VpsrjC2uSlgocVN1Oo7NLaq1g2FJRrLsuApjfaTn4M4CuXFll-yXhxGRWltbM~yHu7eOpSBLUyM2JSwlio8ibuIR5z5frfOXbuunB6yGLndCteKayh07-Em0qgvzozNiIN2QVjcfwhqS0vO6TGnlN03Fh8qNll1z1kdaRwbgh0xLqNWN7nYT2I50MZl2ascCWk-UFek1RBdH0K-EbKZwb-~cDzksMPUkuSM40g__"
+          src="https://s3-alpha-sig.figma.com/img/ffa9/83bc/0a7c60aefd8898368597633bdeeb7975?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=hUrYTjArPeqplXFyLEO6cPBM~vT4D5hoCEOKEA5GrpjG69iplttMw-wSgkh1INFOqc12hg-AF24Ka5QoadALNCjAzr~DoTD9FpKlpWJP4yP6GkPl6wEgVx-1nKSzMJSiG9btQeQV8JTsjU0wLfTA0UwpVvrdpL1QB5biU8oOBDlYkhrg~eQhxBGaDik5N0AHccHH7zpsyXbSP3jGzN4NDOnsWhV~Patz2Yu2JITvtyO8zBTExBVgUv5bby3bggLPqmCJWwpWa7dLvxt26LR05BVHNhPMXvJynLy5UhJBI-l~dKZAxF-17JSjOw54dzGGpHXNzqX0STMfumAaVp5VRw__"
           alt="Hotel"
           className="h-6 w-6"
         />
@@ -88,7 +88,7 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/73fd/26a0/632ccb645360a7dec6d2f9695bbe5056?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=fEJ3d6Kb2-BQza2tuCbD7XbY7v~q1M-chqpqFJa~1F~Mrhame7mPMTdRv2O6H3ReoXMhmcYjQJ09bmfinNptkPYGzw8bxqL5S8YxsPm-MmyPK-EA-fiKTJooK-o8f8RUo~m0xJXzSaz5tgZK3OiGX-xE-SceXvIA6oy-7vj7oaoT59HK9WKaRMaWr03cscy6Zy9XF~A8XFk8bdVIA02aTmECPMCd4-einFOzW6Y7lvf4QkJKiehtUmAzlXbWqUQM2P6ytNUTzmnScKB2azosSCNCILUPKN4tvn5QSVt9p11apJ5mNmtJwxgQ1wLq0ooAI3u-L9mv746UUS4Dn~I1Qg__"
+          src="https://s3-alpha-sig.figma.com/img/73fd/26a0/632ccb645360a7dec6d2f9695bbe5056?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rFeBsQ5F4nK7TAVF04ZFvNu-ceVaTSb6XTyYRa5UMsWGelvIF2Jmf6Nvltoyf4kAoB87Jdu9iOBjjBL-s5TgdNq4NTWcVxWvAeLHl~brtAHrPd9UXRICWt6~U3ev7084cmQAg4~AHqjhUEg8aabj-abticUf3sSchEtNhpu8xLBxDtHzDLZYMYkUz8WQThUWYppQ4oTo5oR0MjBdnDh4gjByV47XIILQQkqgSoO8dbP3fS-wMcw52RPy4d4r8fFZ158hp4O8BzeqERrj8PVvnDYNGW0fDq~EiE92lW6SXijYU7kXxsjpvUelI9qsAg2mG40Pxfc5r6mJmw6JMpPQow__"
           alt="Dammusi"
           className="h-6 w-6"
         />
