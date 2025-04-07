@@ -1,15 +1,57 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { Search, Sliders } from "lucide-react";
 import Logo from "./Logo.jsx";
 import Menu from "./Menu.jsx";
 import Items from "./Items.jsx";
 import IconScroll from "./IconScroll.jsx";
 import PopupModal from "./PopupModal.jsx";
-import ListingDetails from "./ListingDetails.jsx"; // Import the new component
+import axios from "axios";
 
-function MainPage() {
+function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [recommendations, setRecommendations] = useState([]);
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      setIsLoading(true);
+
+      try {
+        const response = await axios.get("https://api.geoapify.com/v2/places", {
+          params: {
+            categories: "accommodation.hotel",
+            filter: "circle:16.3738,48.2082,5000", // Example: Vienna center
+            limit: 20,
+            apiKey: "779636eb19fb429fb577544f0a40d322",
+          },
+        });
+
+        const mappedListings = response.data.features.map((place, index) => ({
+          id: index,
+          images: [
+            `https://source.unsplash.com/featured/?hotel,${
+              place.properties.name || "building"
+            }`,
+          ],
+          title: place.properties.name || "Unnamed Hotel",
+          location: place.properties.address_line1 || "Unknown Location",
+          rating: (Math.random() * 2 + 3).toFixed(1),
+          price: (Math.random() * 200 + 50).toFixed(0),
+          description:
+            place.properties.categories?.[0] || "Hotel accommodation",
+        }));
+
+        setListings(mappedListings);
+      } catch (error) {
+        console.error("Failed to fetch listings from Geoapify:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchListings();
+  }, []);
 
   return (
     <>
@@ -64,6 +106,7 @@ function MainPage() {
           <PopupModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
+            setRecommendations={setRecommendations} // ✅ Add this
           />
           <button className="flex items-center w-36 space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
             <Sliders className="h-5 w-5" />
@@ -71,92 +114,51 @@ function MainPage() {
           </button>
         </div>
       </div>
-
+      {recommendations && recommendations.length > 0 && (
+        <div className="sm:ml-[130px] sm:mr-[80px] mt-12">
+          <h2 className="text-3xl font-bold text-orange-500 mb-4">
+            Recommended For You
+          </h2>
+          <div className="flex flex-wrap gap-8 p-2 justify-start">
+            {recommendations.map((rec, index) => (
+              <Items
+                key={`rec-${index}`}
+                id={`rec-${index}`}
+                images={[
+                  "https://source.unsplash.com/featured/?travel,recommendation",
+                ]}
+                title={rec.title || rec.name || `Recommendation ${index + 1}`}
+                location={rec.location || "Based on your preferences"}
+                rating={(Math.random() * 2 + 3).toFixed(1)}
+                price={(Math.random() * 150 + 50).toFixed(0)}
+                description={rec.description || "Personalized recommendation"}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="sm:ml-[130px] sm:mr-[80px] flex flex-wrap gap-8 p-2 justify-start">
-        <Items
-          id={1}
-          images={[
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/83a47318-f3f6-4579-94d5-71523787ff11.jpeg?im_w=1200",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/1fc2607d-55cc-4f7a-871a-842c7eb3050f.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/396f3add-24d3-46be-8f98-c6e35c14262e.jpeg?im_w=720",
-          ]}
-          title="Luxury Seafront Villa"
-          location="Vis, Croatia"
-          rating="4"
-          price="710"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          id={1}
-          images={[
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/83a47318-f3f6-4579-94d5-71523787ff11.jpeg?im_w=1200",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/1fc2607d-55cc-4f7a-871a-842c7eb3050f.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/396f3add-24d3-46be-8f98-c6e35c14262e.jpeg?im_w=720",
-          ]}
-          title="Luxury Seafront Villa"
-          location="Vis, Croatia"
-          rating="4"
-          price="710"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          id={1}
-          images={[
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/83a47318-f3f6-4579-94d5-71523787ff11.jpeg?im_w=1200",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/1fc2607d-55cc-4f7a-871a-842c7eb3050f.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/396f3add-24d3-46be-8f98-c6e35c14262e.jpeg?im_w=720",
-          ]}
-          title="Luxury Seafront Villa"
-          location="Vis, Croatia"
-          rating="4"
-          price="710"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          id={1}
-          images={[
-            "https://a0.muscache.com/im/pictures/95b4b48b-6a13-4500-af3b-6aa66dc579b4.jpg?im_w=960",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/1fc2607d-55cc-4f7a-871a-842c7eb3050f.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/396f3add-24d3-46be-8f98-c6e35c14262e.jpeg?im_w=720",
-          ]}
-          title="Luxury Seafront Villa"
-          location="Vis, Croatia"
-          rating="4"
-          price="710"
-          description="Private cabin with stunning views"
-        />
-        <Items
-          id={1}
-          images={[
-            "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTM2NDQ4ODA5MjU0MDI3NDEyNA==/original/99f26bb6-d500-443f-a646-feeddfd9ecdd.jpeg?im_w=960",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/1fc2607d-55cc-4f7a-871a-842c7eb3050f.jpeg?im_w=720",
-            "https://a0.muscache.com/im/pictures/miso/Hosting-1176955419486517899/original/396f3add-24d3-46be-8f98-c6e35c14262e.jpeg?im_w=720",
-          ]}
-          title="Luxury Seafront Villa"
-          location="Vis, Croatia"
-          rating="4"
-          price="710"
-          description="Private cabin with stunning views"
-        />
+        {isLoading ? (
+          <p>Loading listings...</p>
+        ) : listings.length === 0 ? (
+          <p>No hotels found in this area.</p>
+        ) : (
+          listings.map((listing) => (
+            <Items
+              key={listing.id}
+              id={listing.id}
+              images={listing.images}
+              title={listing.title}
+              location={listing.location}
+              rating={listing.rating}
+              price={listing.price}
+              description={listing.description}
+            />
+          ))
+        )}
       </div>
     </>
   );
 }
 
-function App() {
-  return (
-    <Routes>
-      {/* Show MainPage only if not on listing details */}
-      <Route path="/" element={<MainPage />} />
-      <Route path="/listing/:id" element={<ListingDetails />} />
-    </Routes>
-  );
-}
-
-export default function WrappedApp() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
+export default App;

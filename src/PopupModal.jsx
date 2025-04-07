@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import TravelHistory from "./TravelHistory.jsx";
+import axios from "axios";
+
 //import butterfly from "/images/ph_butterfly-light.png"; // Ensure correct path
 
-const TravelModal = ({ isOpen, onClose }) => {
+const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
   const [step, setStep] = useState(1);
   const [selectedPreferences, setSelectedPreferences] = useState({
     travelStyle: null,
@@ -68,6 +69,70 @@ const TravelModal = ({ isOpen, onClose }) => {
 
   const handleSelectInterest = (item) => {
     setSelectedInterest(item);
+  };
+  const sendToRecommendationAPI = async (data) => {
+    try {
+      const response = await axios.post(
+        "https://go-genius-api-production.up.railway.app/recommend",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Recommendation API error:", error);
+      return null;
+    }
+  };
+  const handleFinalSubmit = async () => {
+    const payload = {
+      user_id: "user123", // You can customize this later
+
+      travel_style: selectedPreferences.travelStyle
+        ? [selectedPreferences.travelStyle.toLowerCase()]
+        : [],
+
+      duration: selectedPreferences.tripDuration
+        ?.toLowerCase()
+        .includes("short")
+        ? "short"
+        : selectedPreferences.tripDuration?.toLowerCase().includes("medium")
+        ? "medium"
+        : "long",
+
+      budget: selectedPreferences.budget?.toLowerCase().includes("low")
+        ? "low"
+        : selectedPreferences.budget?.toLowerCase().includes("medium")
+        ? "medium"
+        : "high",
+
+      climate: selectedPreferences.climate?.toLowerCase(),
+
+      companions: selectedCompanions.map((c) => c.toLowerCase()),
+
+      past_destinations: destinations.past.map((d) => d.toLowerCase()),
+      favorite_trip: destinations.favorite.map((d) => d.toLowerCase()),
+      least_favorite_trip: destinations.leastFavorite.map((d) =>
+        d.toLowerCase()
+      ),
+
+      transport: selectedTransport ? [selectedTransport.toLowerCase()] : [],
+      accommodation: selectedAccommodation
+        ? [selectedAccommodation.toLowerCase()]
+        : [],
+      interests: selectedInterest ? [selectedInterest.toLowerCase()] : [],
+
+      test_mode: false,
+    };
+
+    const result = await sendToRecommendationAPI(payload);
+    if (result) {
+      setRecommendations(result);
+    }
+    setStep(5);
   };
 
   if (!isOpen) return null;
@@ -480,7 +545,7 @@ const TravelModal = ({ isOpen, onClose }) => {
               <div className="absolute bottom-4 right-4">
                 <button
                   className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
-                  onClick={() => setStep(5)}
+                  onClick={handleFinalSubmit}
                 >
                   Continue
                 </button>
