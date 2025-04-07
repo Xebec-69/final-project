@@ -99,26 +99,6 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="images/ed8b9e47-609b-44c2-9768-33e6a22eccb2 1.svg"
-          alt="Top cities"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Top cities",
-    },
-    {
-      icon: (
-        <img
-          src="images/3fb523a0-b622-4368-8142-b5e03df7549b 1.svg"
-          alt="Amazing pools"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Amazing pools",
-    },
-    {
-      icon: (
-        <img
           src="images/7630c83f-96a8-4232-9a10-0398661e2e6f 1.svg"
           alt="Rooms"
           className="h-6 w-6"
