@@ -8,37 +8,7 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/ffa9/83bc/0a7c60aefd8898368597633bdeeb7975?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=hUrYTjArPeqplXFyLEO6cPBM~vT4D5hoCEOKEA5GrpjG69iplttMw-wSgkh1INFOqc12hg-AF24Ka5QoadALNCjAzr~DoTD9FpKlpWJP4yP6GkPl6wEgVx-1nKSzMJSiG9btQeQV8JTsjU0wLfTA0UwpVvrdpL1QB5biU8oOBDlYkhrg~eQhxBGaDik5N0AHccHH7zpsyXbSP3jGzN4NDOnsWhV~Patz2Yu2JITvtyO8zBTExBVgUv5bby3bggLPqmCJWwpWa7dLvxt26LR05BVHNhPMXvJynLy5UhJBI-l~dKZAxF-17JSjOw54dzGGpHXNzqX0STMfumAaVp5VRw__"
-          alt="Hotel"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Hotel",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/91c2/5cb2/4e9a95af6e518904f167cc4114a8932b?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=RvJe8Vd3EvlarbC2bwV1fOPoscxAdd1j7SLmkpsz9E5laodi80wm~p0zuVBBFnSJfjLKj86KI3vm-66r73XugbSmKqjrQVO1n8byEKq5SyHUYQN6lUYcagdybN-~OyfQzOR647cjlgLO0KRtof8u3u59lJuyrA7vV7GjO~zGzD96ZspWKDVDU~fCAK33AVkCAWL9klf~5BEyaKqt2~sBVyRtKnfXLbQP9UX7PV-mX8P8bUuFI8v79b8w2F6rG3pj2d54-P5RG35tH1ZBXmSo9cOgqpPF3eoap2Q6~oWQjvDUihc2KdHLpMCnEAhcak1X~otzI7QBanOxaveAbkbveA__"
-          alt="Countryside"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Countryside",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/0fa9/f56a/0883a1ecb4a66077b2729a0352f36a92?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=JqRuGrDPG7KED9DJbYu2bdxqXTJVQFVZY4od4Ar0W3ceXK9ZeFe6yIOU71BvssNGz0VFu6XtifU8CAI7RLjfrEPGZ59QmIXmXXISYlG6~GxZKmvJXjmtALs3CSfFv-6~8QTVni-rqiHoUBQgmd3fk7kOEuKFcocImeP8Oe9ZZrstB5ygmrbXRwi9csjZsWuu48YPfEIN2O6IvddU6zwpexTIlLCzAhP2OU5CT7X8goYZnxt0P6WXZTAlunmslEawNc8m6gmG7wrVyLkD9yXjY3jnfWdVlKb0CwCeiHOM2euBUdW63mr0t401It~9-338Pqbvi0aKjS4vZSMWNNDfGA__"
-          alt="Icons"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Icons",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/0779/c993/550ea73e2af3dd0164b6b54a36cc77bb?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=HKfmcyrTsx97tuljBKBm8Mx454goob3P3uhr3Jh98RSucgxGIBj7reV9WY1Yvy1YOL6fPsBaL1vDdagW4Q9sjuhWRIX2YSQht6im4cCL8z8EhnQC8DVDDWh5UARAVhdmLEkGaROgzq5HAxpxrly3RbkNbEQem2eINSt71HEPGK5zzcE6m8TiUFE~YjyDSnhEZ2zzpkz28yCbyKorZlIQNtDuoo2PivCMO2DwQOXNVBOhQChqOWBizrfBnsTHfOTRmw6DBvwkPwv8TxbLzkYUg8eDxRWZvMU6NoQL~7TFKmmUMQytDythR4JrZQ38c3zJGM4hYEep7H2-NKlWwbtT~A__"
+          src="images/8e507f16-4943-4be9-b707-59bd38d56309 1.svg"
           alt="Islands"
           className="h-6 w-6"
         />
@@ -48,47 +18,27 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/d335/a14b/98f15737ad91b42faf56a113751f97f7?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=dR5fz2egGFPJQmeqg2C9WLb881Q9~5Jkimf9avkYAKt0DJYFNd0w~-GGWn4rkT1SpSDTYY7dkiZ1xjoVnB8qwV47x3TtUPkGITKdPM-hWI6wYvNr0wG4yt~6ZZeSPSusDaek-fjmnGcKeBtWxBMfKINlwgsG5SyuI9YD3TfHmMoZTZyNIJyvjHlWVtPd~tUfOqaotvvztR2GrerKIeeSwwmv7UiFmOvgE6NzKKvn1z7tPlZ8pJg9cN-mMby9M-a8ebFx~j853IQdDR2M8-udEBs9uNmXJR5WikUC3B0yIkL4uccOop4bT0QlMN-RN1wKlRzs7v4OeOF5MD42EobVkA__"
-          alt="Surfing"
+          src="images/33dd714a-7b4a-4654-aaf0-f58ea887a688 1.svg"
+          alt="Historical homes"
           className="h-6 w-6"
         />
       ),
-      label: "Surfing",
+      label: "Historical homes",
     },
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/92c2/f6ae/6028bc0edd2598f4929d345911da2016?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Et2wLwWVjxZv~0CFwjzio7hrZHLOuAIFcORSGF4V6lHtyT6vTtWcBEymUdnSuPfQSxmFF3KmbQD21SVQEMkTxfwmIZnoaseHGCkAGuHNLBuQ2CQNmyZXhINJ7VdK4e3E6mMuyMmkj0stHjgqQ1pgLYxJMP2OjQFqgB1sj6PxKlcnInOTUqPxTNz2Ugm3rVNuqqSORhwVw6VeU4oJj0vzusSkGKymWE4kJ7u0i1jc45y3GIFjk~kYb5NyKWOQVQnQEr~1uovxcOT8efYqx0QuGyr17bX8HNUY48T6AB~mJz1d3WGjUOSo-kLO1R6acH1VEG9GPfhsaS1oX-FaXVCrIA__"
-          alt="OMG"
+          src="images/1d477273-96d6-4819-9bda-9085f809dad3 1.svg"
+          alt="A-frames"
           className="h-6 w-6"
         />
       ),
-      label: "OMG",
+      label: "A-frames",
     },
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/5b28/6039/ef958cca9f15436e2105a5688ed9bfcc?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=KHDvhmxj8Gyrug0IkP59W66Z3lJqKQ~lOsMDsuURtiBhe2pd83uiDb1K3Gfoc~jkJUujcdOFWtqeHHhVRr9K1h0O4RUV6RTB9MnjINDW5cXN1wyVX1DK0BBZfaNoXgkGAaJx97DkgUbxucZYHxwN~A97aXGdZh-uhpPv-IlpIDaTAveTfQPpeydCtG6h-Buv~uEE7jOmfxjD-xJbHMVrEVrosl9V-tLPTlLWPkA9G2D6NnUffH7Og-XoZPyTClnPflkTyHYyepakbfe6J70Lqi2WwEr87BohtvV3~kO4KQ4NpJgGintoiFdeUtNglyD-dr62bmkp07H7EX8-EAFRPw__"
-          alt="HistoricalHomes"
-          className="h-6 w-6"
-        />
-      ),
-      label: "HistoricalHomes",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/f42a/cc0c/ba2d39ee4e95dfe47756f0ae445aa31f?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=MCBDyJJQsKxdO962fcba8yAF9dmYSapqz0VryXVVSuTm2bFggKuoRhG3ZLVQRWC4lze6VQXjqmD6Yh0b2VpyrKWKhe3lr7~9ssnPr5--VtM0zmTzo9zymdFgGCh3V4XFvkM98Wtqe6-iY6ZNakomjLFL3tsKPvOyhGAAN~iXpEJfLklQ5euFNmpZ2~E~B63OmbBtXp-a5WatbEJ4IEWf-yjJsqjrDjazxmCqc2eQmUyqO1A40OU40LntLKbmf9khRuHkCSJJ6abEifcYnPXBVQdIIFnSd~jag26KNT0GQZk9NDa9~Dk3Xqd7-9C3SlrUSlog6DzRj0bULvMshNfT2w__"
-          alt="A-farmes"
-          className="h-6 w-6"
-        />
-      ),
-      label: "A-farmes",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/73fd/26a0/632ccb645360a7dec6d2f9695bbe5056?Expires=1744588800&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=rFeBsQ5F4nK7TAVF04ZFvNu-ceVaTSb6XTyYRa5UMsWGelvIF2Jmf6Nvltoyf4kAoB87Jdu9iOBjjBL-s5TgdNq4NTWcVxWvAeLHl~brtAHrPd9UXRICWt6~U3ev7084cmQAg4~AHqjhUEg8aabj-abticUf3sSchEtNhpu8xLBxDtHzDLZYMYkUz8WQThUWYppQ4oTo5oR0MjBdnDh4gjByV47XIILQQkqgSoO8dbP3fS-wMcw52RPy4d4r8fFZ158hp4O8BzeqERrj8PVvnDYNGW0fDq~EiE92lW6SXijYU7kXxsjpvUelI9qsAg2mG40Pxfc5r6mJmw6JMpPQow__"
+          src="images/c9157d0a-98fe-4516-af81-44022118fbc7 1.svg"
           alt="Dammusi"
           className="h-6 w-6"
         />
@@ -98,7 +48,7 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/a6d7/e978/4ef4d46a699075a47901bf746d04bf9d?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=oIIUlWWugIS-M0pTkPDMeFG--uVNywThOCZyqPcls74uhjjsWUV-5zW8wZUhJkVjMb6cgu7FTRJXR9HoWLGgMt82JE0IDTFQWKA4wInZ36DeeIVyplmWpU7WCAbkoO8BS~3ulOysWanfsqvxEHd8~gAFjwF-V13gmW3eOWhQIMdLM0CMNUkQzqykhpNvB0ukvYfK9zalaUzVRDVjRZ1emWDVg7Nym6Ohw3AOhsX8~7mS8xCcau9gRmX67dr9J8monDy9DAQgE175oLc3xdcXJuKdBk9ZCf~f-amrxR8hSXzpEfo48N01InRjGoq35~4j6~5nCtTP1VYuYnu6txKPSw__"
+          src="images/89faf9ae-bbbc-4bc4-aecd-cc15bf36cbca 1.svg"
           alt="Domes"
           className="h-6 w-6"
         />
@@ -108,7 +58,7 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/ffa9/83bc/0a7c60aefd8898368597633bdeeb7975?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Yp~mlI1SHntJ-sk9MTaPpQSP08xZ97NLhYohhksviWaoRFinBbf2jIjw4cTJkEfBdFxB9EUejw3Do9hDt8TEIi-FKLl0spOtc8V6uBfE5WL17DIkptPIRDdR7WzKeQdcVMCC9~73-RfYxZehx6nqESWit9vWk9S2VbIQRaqcQtcGnazXm9kij8B5aR0ny8KQZk2ABKyxrjKn4pjVXE3rPhZBlUgxlnTY~OTR~n6iw5UapbqEcZDkV3nKH0J~u6lB57-UQZ-niGNU8gopDwefVK2oK~DUTjstePHKcfPeJSjPgcH~-f2na4XKJadzZS5qxpmxHmU-s56e8Il6m~Kxqw__"
+          src="images/aaa02c2d-9f0d-4c41-878a-68c12ec6c6bd 1.svg"
           alt="Farms"
           className="h-6 w-6"
         />
@@ -118,27 +68,28 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/4577/e5b1/87fda98735c47245bf9f88b2337b78b5?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=VzkOi5PeaGXJouBvP4~NfemsciU645MPq8F4AZNklgPyZc-Glw82vmCJ3DB3WB0U1mfNNKgKgS287SWvBpbMFljW~BEZPO7EGMKXYoqk4gUl7L0jzJVfcIIiqos1HwFwbg6bZ4XbpbS-eJOZF0go~V23l5VLpZLCyQTldth894d111-5WM-JKUf~n-LbqorleJUqHr0TIy7V4n-OKj294pX49qFXWK2sgWRGxoCmArbwcMDMTVpQeFRRUZKMYu~PItfe~Ea0T8o1EK1pi0CwhwkZR5Zm1P18EaLrLBQ01E9UI4~4YAoGzH6mkCwoIJ4tjiNnb1ocltYC0Ucm8I-MGA__"
+          src="images/ee9e2a40-ffac-4db9-9080-b351efc3cfc4 1.svg"
           alt="Tropical"
           className="h-6 w-6"
         />
       ),
       label: "Tropical",
     },
+
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/90ba/b5be/31f804e5f90080f40bfadf17f850fc52?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=bqGYn4Pg3kauQ8hg3EQh7vPLIQ3xeT3N3CV7eoLU51nHNqBArdaMM-sdDJdyzqoc8pRCuxsEptrB1eiO5ENmfMcRsMl3-uaJsb60EE~GCR-7nrVCsJ6IWSMv~9Gmu0lKg00qsUrhdTV7EQV8iZa8jNVSRDi6xAvYtQ-wnD8mXX2xoZehRuMxsvq7tAL82MMqisRwT11aBipNJzdfML4iB9kDV9vU6CXm6iGIHlMz8A1Gd8TzZBANIIdM8K4Fi1VS6LMskhVZqaesUxEENg2mo5V8F0R921mQBqS5vZG~SR3CJmV8X6iu5sOLRqcoMJ8tdMZ3WAPmTTPpaLXHaxGt0w__"
-          alt="Top Cities"
+          src="images/ed8b9e47-609b-44c2-9768-33e6a22eccb2 1.svg"
+          alt="Top cities"
           className="h-6 w-6"
         />
       ),
-      label: "Top Cities",
+      label: "Top cities",
     },
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/bdfd/0b2c/355d9ffac3c209aff67166a05391ce33?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=mh4JI14djdezKv3aqKMQvhskS3tY2o2MQhxegilMYng0gUTCOdYSLkrQV04EH96K6bHBWRQQQPjsb5CMsiWftn89IG3JvbGa2cfPwNOEyNaO-fxuDEk2ptuRzawED-zg36Ezb9jP9uC~RJNCQFRE7URLy~1jcFx4EjVtofntycnFKtQqiunR0GFM0TkI7~wpkI-lynfPbVWMaNLSlzjmakdkElifUzIJJNAl8BAxl6-9l7UtbsSzaA6nbvXYDfKZw2UlGLFbxsnO334W8-zIv17jKp0ooutKFjr9TGPdScOxI~6myjpVhvSbqJAEKzJQQoJbqXxH7tfMOVsOw4aW-w__"
+          src="images/3fb523a0-b622-4368-8142-b5e03df7549b 1.svg"
           alt="Amazing pools"
           className="h-6 w-6"
         />
@@ -148,12 +99,52 @@ const IconScroll = () => {
     {
       icon: (
         <img
-          src="https://s3-alpha-sig.figma.com/img/2ade/050b/c367ea02651aa9863a7363a8e8ad6ffe?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=SZbInucMBhFMMscJJSj5tOGOv5kq5ojvK8slU70oXLtYaVUSIfcF8DM9b9Een633cXxV3JIihc3CaVoZBOkBpT2i3NXsgE6ijgaItOQI-crGLBmXBR1MFHkhsOUkZKKvTZwmvlptrpTV~vzoBaOY~cZMzc8XP9oy49ke6n1EZr-siki9z-vz8C6xL1VaaVoqDoaYJbeKA0MeM0c7fM1ijKcifXdydZljqThngBzRCEEnzvQLeKU9QOLf4~7047013N0cT3VAXwPDom2HwLcElQYrhwtgl63TGIrDZvt3-al7-dGRzfR22n3ua5XWgo8ClbaTOorqScjMEiGhTtDxKQ__"
+          src="images/7630c83f-96a8-4232-9a10-0398661e2e6f 1.svg"
+          alt="Rooms"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Rooms",
+    },
+    {
+      icon: (
+        <img
+          src="images/4d4a4eba-c7e4-43eb-9ce2-95e1d200d10e 1.svg"
           alt="Treehouses"
           className="h-6 w-6"
         />
       ),
       label: "Treehouses",
+    },
+    {
+      icon: (
+        <img
+          src="images/6ad4bd95-f086-437d-97e3-14d12155ddfe 1.svg"
+          alt="Countryside"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Top Cities",
+    },
+    {
+      icon: (
+        <img
+          src="images/6ad4bd95-f086-437d-97e3-14d12155ddfe 1.svg"
+          alt="Amazing pools"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Amazing pools",
+    },
+    {
+      icon: (
+        <img
+          src="images/3271df99-f071-4ecf-9128-eb2d2b1f50f0 1.svg"
+          alt="Design"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Design",
     },
     {
       icon: (

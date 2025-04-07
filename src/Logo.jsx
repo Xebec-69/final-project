@@ -4,18 +4,19 @@ const Logo = () => {
   const handleRefresh = () => {
     window.location.reload(); // Reload the page
   };
+
   return (
     <div className="flex items-center">
-      <div className="relative w-16 h-16  rotate-12 flex items-center justify-center">
+      <div className="relative w-12 h-12 rotate-12 flex items-center justify-center pr-3">
         <img
-          src="/images/ph_butterfly-light.png"
+          src="/images/Vector.svg"
           alt="Logo"
-          className="w-12 h-12 cursor-pointer hover:opacity-80 transition rounded-lg"
+          className="w-10 h-10 cursor-pointer hover:opacity-80 transition rounded-lg"
           onClick={handleRefresh}
         />
       </div>
       <span
-        className="text-customOrange text-xl font-semibold -ml-4 cursor-pointer transition"
+        className="text-customOrange text-lg font-semibold -ml-3 cursor-pointer transition"
         onClick={handleRefresh}
       >
         GoGenius

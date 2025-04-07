@@ -1,5 +1,25 @@
 import React, { useState } from "react";
 import axios from "axios";
+const fetchUnsplashImage = async (hotelName) => {
+  try {
+    const res = await axios.get("https://api.unsplash.com/search/photos", {
+      params: {
+        query: `hotel ${hotelName}`,
+        client_id: "Qlu_q3rKwupC1hYsxkfFA5BIJuoJjbfZ0wdXitLoffk",
+        orientation: "landscape",
+        per_page: 1,
+      },
+    });
+
+    return (
+      res.data.results[0]?.urls?.small ||
+      "https://source.unsplash.com/featured/?travel"
+    );
+  } catch (error) {
+    console.error("Unsplash image fetch error:", error);
+    return "https://source.unsplash.com/featured/?travel";
+  }
+};
 
 //import butterfly from "/images/ph_butterfly-light.png"; // Ensure correct path
 
@@ -129,9 +149,19 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
     };
 
     const result = await sendToRecommendationAPI(payload);
+
     if (result) {
-      setRecommendations(result);
+      const enhanced = await Promise.all(
+        result.map(async (rec) => {
+          const img = await fetchUnsplashImage(
+            rec.title || rec.name || "travel"
+          );
+          return { ...rec, imageUrl: img };
+        })
+      );
+      setRecommendations(enhanced);
     }
+
     setStep(5);
   };
 

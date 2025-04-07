@@ -13,36 +13,62 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
 
+  const fetchUnsplashImage = async (hotelName) => {
+    try {
+      const res = await axios.get("https://api.unsplash.com/search/photos", {
+        params: {
+          query: `hotel ${hotelName}`,
+          client_id: "Qlu_q3rKwupC1hYsxkfFA5BIJuoJjbfZ0wdXitLoffk",
+          orientation: "landscape",
+          per_page: 1,
+        },
+      });
+
+      return (
+        res.data.results[0]?.urls?.small ||
+        "https://source.unsplash.com/featured/?hotel"
+      );
+    } catch (error) {
+      console.error("Unsplash image fetch error:", error);
+      return "https://source.unsplash.com/featured/?hotel";
+    }
+  };
+
   useEffect(() => {
     const fetchListings = async () => {
       setIsLoading(true);
 
       try {
-        const response = await axios.get("https://api.geoapify.com/v2/places", {
+        const geoRes = await axios.get("https://api.geoapify.com/v2/places", {
           params: {
             categories: "accommodation.hotel",
-            filter: "circle:16.3738,48.2082,5000", // Example: Vienna center
-            limit: 20,
+            filter: "circle:16.3738,48.2082,5000",
+            limit: 5,
             apiKey: "779636eb19fb429fb577544f0a40d322",
           },
         });
 
-        const mappedListings = response.data.features.map((place, index) => ({
-          id: index,
-          images: [
-            `https://source.unsplash.com/featured/?hotel,${
-              place.properties.name || "building"
-            }`,
-          ],
-          title: place.properties.name || "Unnamed Hotel",
-          location: place.properties.address_line1 || "Unknown Location",
-          rating: (Math.random() * 2 + 3).toFixed(1),
-          price: (Math.random() * 200 + 50).toFixed(0),
-          description:
-            place.properties.categories?.[0] || "Hotel accommodation",
-        }));
+        const places = geoRes.data.features;
 
-        setListings(mappedListings);
+        const hotelData = await Promise.all(
+          places.map(async (place, index) => {
+            const hotelName = place.properties.name || "hotel";
+            const imageUrl = await fetchUnsplashImage(hotelName);
+
+            return {
+              id: index,
+              images: [imageUrl],
+              title: hotelName,
+              location: place.properties.address_line1 || "Unknown Location",
+              rating: (Math.random() * 2 + 3).toFixed(1),
+              price: (Math.random() * 200 + 50).toFixed(0),
+              description:
+                place.properties.categories?.[0] || "Hotel accommodation",
+            };
+          })
+        );
+
+        setListings(hotelData);
       } catch (error) {
         console.error("Failed to fetch listings from Geoapify:", error);
       } finally {
@@ -106,8 +132,19 @@ function App() {
           <PopupModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            setRecommendations={setRecommendations} // ✅ Add this
+            setRecommendations={setRecommendations}
           />
+          <button
+            className="flex items-center w-36 space-x-4 border border-customOrange text-customOrange px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <img
+              src="/images/Vector.svg"
+              alt="Logo"
+              className="w-10 h-10 cursor-pointer hover:opacity-80 transition rounded-lg"
+            />
+            <span className="font-medium test-customOrange">Legacy</span>
+          </button>
           <button className="flex items-center w-36 space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
             <Sliders className="h-5 w-5" />
             <span className="font-medium">Filters</span>
@@ -125,7 +162,8 @@ function App() {
                 key={`rec-${index}`}
                 id={`rec-${index}`}
                 images={[
-                  "https://source.unsplash.com/featured/?travel,recommendation",
+                  rec.imageUrl ||
+                    "https://source.unsplash.com/featured/?travel,recommendation",
                 ]}
                 title={rec.title || rec.name || `Recommendation ${index + 1}`}
                 location={rec.location || "Based on your preferences"}
