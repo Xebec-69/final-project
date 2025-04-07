@@ -18,6 +18,26 @@ const IconScroll = () => {
     {
       icon: (
         <img
+          src="images/10ce1091-c854-40f3-a2fb-defc2995bcaf 1.svg"
+          alt="Beach"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Beach",
+    },
+    {
+      icon: (
+        <img
+          src="images/957f8022-dfd7-426c-99fd-77ed792f6d7a 1.svg"
+          alt="Surfing"
+          className="h-6 w-6"
+        />
+      ),
+      label: "Surfing",
+    },
+    {
+      icon: (
+        <img
           src="images/33dd714a-7b4a-4654-aaf0-f58ea887a688 1.svg"
           alt="Historical homes"
           className="h-6 w-6"
@@ -146,26 +166,7 @@ const IconScroll = () => {
       ),
       label: "Design",
     },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/1978/e710/4ab5c9f8ef93631280352b1679634ae7?Expires=1742774400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=alRKdwAcBg~kV6zGrxJg0LJbgspriylYSdDYlE-WYIbwXH5MTV5ooi29MuZk2mmaVzZSDQU6lCJOAXq5gwbiKdpHqHqSs0eGjSSZS6xX3FOLgQR2RkK3z3IlGT1qRVXJLfAxYvqT5hj5favud3FNGMczeCtxLzAwb66MCK5cwU1fbeZZw4SIsnwRmqJK-L3aereFvAIv5Sw~megnqIqQtYo2nphGxmXspmfVWVYBvKv5sQEqrqLTyW7K2WzsIVXQ1ZVahhlOLoplOjpcTK7AgM8HHvYF9FZXvE1KPaI2AsSfTcuZzg~gZWA4hq3K4VcSaYaVMlPq6iTB-ELBW3M5FQ__"
-          alt="Beach"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Beach",
-    },
-    {
-      icon: (
-        <img
-          src="https://s3-alpha-sig.figma.com/img/acc9/803c/1cfb06358eb29067a5453ab214ca070c?Expires=1742774400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Z8wmKf~DIPCoLLH7yBlK69IBFMVwfZVCDq3N1uedoT0QFNUjLDA50jxRqVwKrecmf0S1fA~J4QJk2jIL9AbxNa-RWDsa~YxBJF1Dw08LAE8sz7u6roKcY68zJjOZ5xuxtwp7jQXf5xemOhDqEJwrL3jM1sIx5fWaJw-jXdIxjfqENLTNJ1mCeUjYWrjNvLp2Y59jA9lgan8lwdXqGgtvK2wVx7-HzZ5D3rxKAhNRjylIKw0TVSTm3cfBP6i3lnhrJH49U2A5fSNxlNY~REVA6yRvVDWBHC-D-4Pb9QfkiSY6W3acT1dwkFc1FNYumtK~gyXtQ9W7tiijERjh4vpBGQ__"
-          alt="Tiny Homes"
-          className="h-6 w-6"
-        />
-      ),
-      label: "Tiny Homes",
-    },
+
     {
       icon: (
         <img

@@ -9,7 +9,7 @@ const Logo = () => {
     <div className="flex items-center">
       <div className="relative w-12 h-12 rotate-12 flex items-center justify-center pr-3">
         <img
-          src="public/images/Vector.svg"
+          src="images/Vector.svg"
           alt="Logo"
           className="w-10 h-10 cursor-pointer hover:opacity-80 transition rounded-lg"
           onClick={handleRefresh}
