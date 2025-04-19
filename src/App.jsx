@@ -82,13 +82,15 @@ function App() {
   return (
     <>
       {/* Header */}
-      <div className="flex items-center justify-between w-full px-8 py-4 relative">
+      <div className="flex items-center justify-between w-full px-4 sm:px-8 py-4 relative">
         <Logo />
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
-          <span className="font-bold text-black">Home</span>
+          <span className="font-bold text-black text-base sm:text-lg">
+            Home
+          </span>
           <span className="mx-2 text-gray-400">|</span>
           <button
-            className="text-customOrange font-semibold"
+            className="text-customOrange font-semibold text-sm sm:text-base"
             onClick={() => setIsModalOpen(true)}
           >
             Let's personalize your trips!
@@ -98,36 +100,36 @@ function App() {
       </div>
 
       {/* Search Bar */}
-      <div className="flex justify-center items-center mt-4">
-        <div className="shadow w-1/2 rounded-full bg-white px-8 py-6 flex justify-between items-center">
+      <div className="flex justify-center items-center mt-4 px-2 sm:px-6">
+        <div className="shadow w-full sm:w-4/5 md:w-3/4 lg:w-1/2 rounded-2xl bg-white px-4 sm:px-8 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-4">
           <div>
-            <p>Where</p>
-            <p className="text-sm opacity-50">Search Destination</p>
+            <p className="font-medium text-sm sm:text-base">Where</p>
+            <p className="text-xs opacity-50">Search Destination</p>
           </div>
-          <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
+          <div className="h-8 sm:h-12 w-px bg-gray-300"></div>
           <div>
-            <p>Check in</p>
-            <p className="text-sm opacity-50">Add dates</p>
+            <p className="font-medium text-sm sm:text-base">Check in</p>
+            <p className="text-xs opacity-50">Add dates</p>
           </div>
-          <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
+          <div className="h-8 sm:h-12 w-px bg-gray-300"></div>
           <div>
-            <p>Check out</p>
-            <p className="text-sm opacity-50">Add dates</p>
+            <p className="font-medium text-sm sm:text-base">Check out</p>
+            <p className="text-xs opacity-50">Add dates</p>
           </div>
-          <div className="h-12 w-1 border-r-2 bg-gray-500"></div>
+          <div className="h-8 sm:h-12 w-px bg-gray-300"></div>
           <div>
-            <p>Who</p>
-            <p className="text-sm opacity-50">Add guests</p>
+            <p className="font-medium text-sm sm:text-base">Who</p>
+            <p className="text-xs opacity-50">Add guests</p>
           </div>
-          <div className="bg-customOrange p-4 rounded-full">
-            <Search width={30} height={30} className="text-white" />
+          <div className="bg-customOrange p-3 rounded-full">
+            <Search width={20} height={20} className="text-white" />
           </div>
         </div>
       </div>
 
-      {/* Listings */}
-      <div className="p-10">
-        <div className="flex space-x-2">
+      {/* Listings Header */}
+      <div className="p-4 sm:p-10">
+        <div className="flex flex-wrap gap-2">
           <IconScroll />
           <PopupModal
             isOpen={isModalOpen}
@@ -135,25 +137,27 @@ function App() {
             setRecommendations={setRecommendations}
           />
           <button
-            className="flex items-center w-36 space-x-4 border border-customOrange text-customOrange px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100"
+            className="flex items-center w-32 sm:w-36 space-x-4 border border-customOrange text-customOrange px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100"
             onClick={() => setIsModalOpen(true)}
           >
             <img
               src="/images/Vector.svg"
               alt="Logo"
-              className="w-10 h-10 cursor-pointer hover:opacity-80 transition rounded-lg"
+              className="w-8 h-8 cursor-pointer hover:opacity-80 transition rounded-lg"
             />
-            <span className="font-medium test-customOrange">Legacy</span>
+            <span className="font-medium text-customOrange">Legacy</span>
           </button>
-          <button className="flex items-center w-36 space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
+          <button className="flex items-center w-32 sm:w-36 space-x-4 border border-gray-400 text-gray-700 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100">
             <Sliders className="h-5 w-5" />
             <span className="font-medium">Filters</span>
           </button>
         </div>
       </div>
+
+      {/* Recommendations */}
       {recommendations && recommendations.length > 0 && (
-        <div className="sm:ml-[130px] sm:mr-[80px] mt-12">
-          <h2 className="text-3xl font-bold text-orange-500 mb-4">
+        <div className="px-4 sm:px-8 md:px-[130px] mt-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-orange-500 mb-4">
             Recommended For You
           </h2>
           <div className="flex flex-wrap gap-8 p-2 justify-start">
@@ -175,7 +179,9 @@ function App() {
           </div>
         </div>
       )}
-      <div className="sm:ml-[130px] sm:mr-[80px] flex flex-wrap gap-8 p-2 justify-start">
+
+      {/* Main Listings */}
+      <div className="px-4 sm:px-8 md:px-[130px] flex flex-wrap gap-8 p-2 justify-start">
         {isLoading ? (
           <p>Loading listings...</p>
         ) : listings.length === 0 ? (
