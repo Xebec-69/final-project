@@ -1,27 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-const fetchUnsplashImage = async (hotelName) => {
-  try {
-    const res = await axios.get("https://api.unsplash.com/search/photos", {
-      params: {
-        query: `hotel ${hotelName}`,
-        client_id: "Qlu_q3rKwupC1hYsxkfFA5BIJuoJjbfZ0wdXitLoffk",
-        orientation: "landscape",
-        per_page: 1,
-      },
-    });
-
-    return (
-      res.data.results[0]?.urls?.small ||
-      "https://source.unsplash.com/featured/?travel"
-    );
-  } catch (error) {
-    console.error("Unsplash image fetch error:", error);
-    return "https://source.unsplash.com/featured/?travel";
-  }
-};
-
-//import butterfly from "/images/ph_butterfly-light.png"; // Ensure correct path
+import { supabase } from "./supabaseClient";
 
 const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
   const [step, setStep] = useState(1);
@@ -79,27 +58,16 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [selectedInterest, setSelectedInterest] = useState(null);
 
-  const handleSelectTransport = (item) => {
-    setSelectedTransport(item);
-  };
+  const handleSelectTransport = (item) => setSelectedTransport(item);
+  const handleSelectAccommodation = (item) => setSelectedAccommodation(item);
+  const handleSelectInterest = (item) => setSelectedInterest(item);
 
-  const handleSelectAccommodation = (item) => {
-    setSelectedAccommodation(item);
-  };
-
-  const handleSelectInterest = (item) => {
-    setSelectedInterest(item);
-  };
   const sendToRecommendationAPI = async (data) => {
     try {
       const response = await axios.post(
         "https://go-genius-api-production.up.railway.app/recommend",
         data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
       return response.data;
     } catch (error) {
@@ -107,14 +75,23 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
       return null;
     }
   };
-  const handleFinalSubmit = async () => {
-    const payload = {
-      user_id: "user123", // You can customize this later
 
+  const handleFinalSubmit = async () => {
+    const {
+      data: { user },
+      error: userErr,
+    } = await supabase.auth.getUser();
+
+    if (userErr || !user) {
+      console.error("No logged‑in user—cannot save preferences", userErr);
+      return;
+    }
+
+    const payload = {
+      user_id: "user123",
       travel_style: selectedPreferences.travelStyle
         ? [selectedPreferences.travelStyle.toLowerCase()]
         : [],
-
       duration: selectedPreferences.tripDuration
         ?.toLowerCase()
         .includes("short")
@@ -122,46 +99,61 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
         : selectedPreferences.tripDuration?.toLowerCase().includes("medium")
         ? "medium"
         : "long",
-
       budget: selectedPreferences.budget?.toLowerCase().includes("low")
         ? "low"
         : selectedPreferences.budget?.toLowerCase().includes("medium")
         ? "medium"
         : "high",
-
       climate: selectedPreferences.climate?.toLowerCase(),
-
       companions: selectedCompanions.map((c) => c.toLowerCase()),
-
       past_destinations: destinations.past.map((d) => d.toLowerCase()),
       favorite_trip: destinations.favorite.map((d) => d.toLowerCase()),
       least_favorite_trip: destinations.leastFavorite.map((d) =>
         d.toLowerCase()
       ),
-
       transport: selectedTransport ? [selectedTransport.toLowerCase()] : [],
       accommodation: selectedAccommodation
         ? [selectedAccommodation.toLowerCase()]
         : [],
       interests: selectedInterest ? [selectedInterest.toLowerCase()] : [],
-
       test_mode: false,
     };
-
-    const result = await sendToRecommendationAPI(payload);
-
-    if (result) {
-      const enhanced = await Promise.all(
-        result.map(async (rec) => {
-          const img = await fetchUnsplashImage(
-            rec.title || rec.name || "travel"
-          );
-          return { ...rec, imageUrl: img };
-        })
-      );
-      setRecommendations(enhanced);
+    const prefRecord = {
+      user_id: user.id,
+      favorite_travel_style: payload.travel_style[0] || null,
+      trip_duration: payload.duration,
+      budget_range: payload.budget,
+      climate: payload.climate,
+      travel_companions: payload.companions.join(","),
+      past_destinations_visited: payload.past_destinations.join(","),
+      favorite_past_trip: payload.favorite_trip.join(","),
+      least_favorite_trip: payload.least_favorite_trip.join(","),
+      preferred_transport: payload.transport[0] || null,
+      preferred_accommodation_type: payload.accommodation[0] || null, // ← exact column name
+      top_interests_activities: payload.interests.join(","),
+    };
+    const { data: inserted, error: prefErr } = await supabase
+      .from("travel_preferences")
+      .insert(prefRecord);
+    if (prefErr) {
+      console.error("Pref insert error:", {
+        message: prefErr.message,
+        code: prefErr.code,
+        details: prefErr.details,
+        hint: prefErr.hint,
+      });
+    } else {
+      console.log("Preferences saved:", inserted);
     }
-
+    if (prefErr) {
+      console.error("Failed to save preferences:", prefErr, user.id);
+    } else {
+      console.log("Preferences saved for user", user.id);
+    }
+    const result = await sendToRecommendationAPI(payload);
+    if (result) {
+      setRecommendations(result);
+    }
     setStep(5);
   };
 

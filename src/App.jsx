@@ -1,82 +1,113 @@
 import React, { useState, useEffect } from "react";
-import { Search, Sliders } from "lucide-react";
+import { Search, Sliders, Heart } from "lucide-react";
 import Logo from "./Logo.jsx";
 import Menu from "./Menu.jsx";
 import Items from "./Items.jsx";
 import IconScroll from "./IconScroll.jsx";
 import PopupModal from "./PopupModal.jsx";
-import axios from "axios";
+// in App.jsx (and anywhere else)
+import { supabase } from "./supabaseClient";
+
+// Try to turn dest.images into an array of URLs.
+//  • If it's already an array, return as‑is.
+//  • If JSON.parse works, return that.
+//  • Otherwise split on commas or wrap the single URL in an array.
+/**
+ * Turn whatever you stored in dest.images into an array of clean URLs:
+ *  • If it’s already an Array → return as‑is
+ *  • If it’s a JSON‑style array string (with single quotes) → normalize & JSON.parse
+ *  • Otherwise strip any leading/trailing quotes and wrap in an array
+ */
+
+function parseImages(images) {
+  if (!images) return [];
+  if (Array.isArray(images)) return images;
+
+  const str = images.trim();
+  // normalize single‑quoted arrays to valid JSON
+  if (str.startsWith("[") && str.endsWith("]")) {
+    try {
+      const fixed = str.replace(/'/g, '"');
+      const parsed = JSON.parse(fixed);
+      if (Array.isArray(parsed)) return parsed;
+    } catch (e) {
+      console.warn("Could not JSON.parse images:", e);
+    }
+  }
+
+  // fallback: strip any wrapping quotes
+  const url = str.replace(/^['"]+|['"]+$/g, "");
+  return [url];
+}
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [listings, setListings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userName, setUserName] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [destinations, setDestinations] = useState([]);
+  const [loadingDest, setLoadingDest] = useState(true);
 
-  const fetchUnsplashImage = async (hotelName) => {
-    try {
-      const res = await axios.get("https://api.unsplash.com/search/photos", {
-        params: {
-          query: `hotel ${hotelName}`,
-          client_id: "Qlu_q3rKwupC1hYsxkfFA5BIJuoJjbfZ0wdXitLoffk",
-          orientation: "landscape",
-          per_page: 1,
-        },
-      });
+  // controls the little dropdown in the header
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // tells the menu whether to show signup or login
+  const [menuAuthMode, setMenuAuthMode] = useState(null); // "login" | "signup" | null
 
-      return (
-        res.data.results[0]?.urls?.small ||
-        "https://source.unsplash.com/featured/?hotel"
-      );
-    } catch (error) {
-      console.error("Unsplash image fetch error:", error);
-      return "https://source.unsplash.com/featured/?hotel";
-    }
+  const toggleFavorite = (id) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((fav) => fav !== id) : [...prev, id]
+    );
   };
 
   useEffect(() => {
-    const fetchListings = async () => {
-      setIsLoading(true);
+    // 1) Get the initial user
+    supabase.auth.getUser().then(({ data }) => {
+      setUserName(data.user ?? null);
+    });
 
-      try {
-        const geoRes = await axios.get("https://api.geoapify.com/v2/places", {
-          params: {
-            categories: "accommodation.hotel",
-            filter: "circle:16.3738,48.2082,5000",
-            limit: 5,
-            apiKey: "779636eb19fb429fb577544f0a40d322",
-          },
-        });
+    // 2) Subscribe to auth state changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_, session) => {
+      setUserName(session?.user ?? null);
+    });
 
-        const places = geoRes.data.features;
-
-        const hotelData = await Promise.all(
-          places.map(async (place, index) => {
-            const hotelName = place.properties.name || "hotel";
-            const imageUrl = await fetchUnsplashImage(hotelName);
-
-            return {
-              id: index,
-              images: [imageUrl],
-              title: hotelName,
-              location: place.properties.address_line1 || "Unknown Location",
-              rating: (Math.random() * 2 + 3).toFixed(1),
-              price: (Math.random() * 200 + 50).toFixed(0),
-              description:
-                place.properties.categories?.[0] || "Hotel accommodation",
-            };
-          })
-        );
-
-        setListings(hotelData);
-      } catch (error) {
-        console.error("Failed to fetch listings from Geoapify:", error);
-      } finally {
-        setIsLoading(false);
-      }
+    // 3) Cleanup
+    return () => {
+      subscription.unsubscribe();
     };
+  }, []);
+  const handleRate = async (destination_id, ratingValue) => {
+    if (!userName) {
+      // you could also show a toast: “please log in to rate”
+      console.warn("Cannot rate—no user signed in");
+      return;
+    }
+    const { data, error } = await supabase
+      .from("ratings")
+      .insert({
+        user_id: userName.id,
+        destination_id,
+        rating: ratingValue,
+      })
+      .select();
+    if (error) console.error("Rating insert failed:", error);
+    else console.log("Saved rating:", data);
+  };
+  useEffect(() => {
+    async function loadDestinations() {
+      setLoadingDest(true);
+      const { data, error } = await supabase
+        .from("destinations")
+        .select("*")
+        .order("id", { ascending: true });
 
-    fetchListings();
+      if (error) console.error("Supabase error:", error);
+      else setDestinations(data);
+
+      setLoadingDest(false);
+    }
+    loadDestinations();
   }, []);
 
   return (
@@ -89,19 +120,24 @@ function App() {
             Home
           </span>
           <span className="mx-2 text-gray-400">|</span>
-          <button
-            className="text-customOrange font-semibold text-sm sm:text-base"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Let's personalize your trips!
+          <button className="text-customOrange font-semibold text-sm sm:text-base">
+            Be come partnar
           </button>
         </div>
-        <Menu />
+
+        <Menu
+          isOpen={isMenuOpen}
+          setIsOpen={setIsMenuOpen}
+          authMode={menuAuthMode}
+          setAuthMode={setMenuAuthMode}
+          userName={userName}
+          setUserName={setUserName}
+        />
       </div>
 
       {/* Search Bar */}
       <div className="flex justify-center items-center mt-4 px-2 sm:px-6">
-        <div className="shadow w-full sm:w-4/5 md:w-3/4 lg:w-1/2 rounded-2xl bg-white px-4 sm:px-8 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-4">
+        <div className="shadow w-full sm:w-4/5 md:w-3/4 lg:w-1/2 rounded-[121px] bg-white px-4 sm:px-8 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-4">
           <div>
             <p className="font-medium text-sm sm:text-base">Where</p>
             <p className="text-xs opacity-50">Search Destination</p>
@@ -138,7 +174,16 @@ function App() {
           />
           <button
             className="flex items-center w-32 sm:w-36 space-x-4 border border-customOrange text-customOrange px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              if (!userName) {
+                // not signed in → open menu in "login" mode
+                setMenuAuthMode("login");
+                setIsMenuOpen(true);
+              } else {
+                // already signed in → open your travel modal
+                setIsModalOpen(true);
+              }
+            }}
           >
             <img
               src="/images/Vector.svg"
@@ -156,24 +201,25 @@ function App() {
 
       {/* Recommendations */}
       {recommendations && recommendations.length > 0 && (
-        <div className="px-4 sm:px-8 md:px-[130px] mt-12">
+        <div className="px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 py-2 flex flex-wrap justify-center md:justify-start gap-4 sm:gap-6 md:gap-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-orange-500 mb-4">
             Recommended For You
           </h2>
           <div className="flex flex-wrap gap-8 p-2 justify-start">
-            {recommendations.map((rec, index) => (
+            {recommendations.map((rec) => (
               <Items
-                key={`rec-${index}`}
-                id={`rec-${index}`}
-                images={[
-                  rec.imageUrl ||
-                    "https://source.unsplash.com/featured/?travel,recommendation",
-                ]}
-                title={rec.title || rec.name || `Recommendation ${index + 1}`}
-                location={rec.location || "Based on your preferences"}
-                rating={(Math.random() * 2 + 3).toFixed(1)}
-                price={(Math.random() * 150 + 50).toFixed(0)}
-                description={rec.description || "Personalized recommendation"}
+                key={`rec-${rec.id}`}
+                id={rec.id}
+                images={parseImages(rec.images)} // use the array from your API
+                title={rec.name} // your API’s `name`
+                // new prop for tags
+                rating={rec.rating} // number
+                price={rec.budget_range} // your API’s budget_range
+                description={rec.description} // description
+                onToggleFavorite={() => toggleFavorite(rec.id)}
+                isLoggedIn={!!userName}
+                onRate={handleRate}
+                canRate={true}
               />
             ))}
           </div>
@@ -181,22 +227,26 @@ function App() {
       )}
 
       {/* Main Listings */}
-      <div className="px-4 sm:px-8 md:px-[130px] flex flex-wrap gap-8 p-2 justify-start">
-        {isLoading ? (
-          <p>Loading listings...</p>
-        ) : listings.length === 0 ? (
-          <p>No hotels found in this area.</p>
+
+      <div className="px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 py-2 flex flex-wrap justify-center md:justify-start gap-4 sm:gap-6 md:gap-8">
+        {loadingDest ? (
+          <p>Loading destinations…</p>
+        ) : destinations.length === 0 ? (
+          <p>No destinations found.</p>
         ) : (
-          listings.map((listing) => (
+          destinations.map((dest) => (
             <Items
-              key={listing.id}
-              id={listing.id}
-              images={listing.images}
-              title={listing.title}
-              location={listing.location}
-              rating={listing.rating}
-              price={listing.price}
-              description={listing.description}
+              key={dest.id}
+              id={dest.id}
+              images={parseImages(dest.images)}
+              title={dest.name}
+              location={dest.best_season}
+              rating={dest.rating}
+              price={dest.budget_range}
+              description={dest.description}
+              isFavorite={favorites.includes(dest.id)}
+              onToggleFavorite={() => toggleFavorite(dest.id)}
+              canRate={false}
             />
           ))
         )}
