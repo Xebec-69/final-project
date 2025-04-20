@@ -8,8 +8,7 @@ const Items = ({
   rating,
   price,
   description,
-  isFavorite,
-  onToggleFavorite,
+
   id,
   onRate,
   isLoggedIn = false,
@@ -20,6 +19,7 @@ const Items = ({
   const [ratingOpen, setRatingOpen] = useState(false);
   const [myRating, setMyRating] = useState(null);
 
+  const [isFav, setIsFav] = useState(false);
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
@@ -39,8 +39,8 @@ const Items = ({
     onRate(id, value); // user.id is no longer null
   };
   return (
-    <div className="m-2">
-      <div className="w-[302px] h-[287px] rounded-2xl shadow-lg overflow-hidden bg-white">
+    <div className="m-1 ml-6  pl-2">
+      <div className="  w-[302px] h-[287px] rounded-2xl shadow-lg overflow-hidden ">
         <div className="relative">
           {canRate && (
             <>
@@ -70,12 +70,12 @@ const Items = ({
             alt={title}
             className="w-[302px] h-[287px] object-cover cursor-pointer"
           />
-          <button className="absolute top-2 right-2  p-1 rounded-full shadow">
+          <button className="absolute top-2 right-2  p-1  shadow">
             <Heart
+              onClick={() => setIsFav((f) => !f)}
               className={`absolute top-2 right-2 cursor-pointer transition ${
-                isFavorite ? "text-white fill-red-600" : "text-white"
+                isFav ? "text-white fill-red-600" : "text-white "
               }`}
-              onClick={onToggleFavorite}
             />
           </button>
           <button
@@ -93,21 +93,25 @@ const Items = ({
         </div>
       </div>
       {/* Content section with title + rating on one line */}
-      <div className="px-2 pb-6 w-[302px]">
+      <div className="px-2 pt-6 w-[302px]">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-          <span className="flex items-center space-x-1 text-lg text-black fill-black">
+          <h2 className="text-lg SF Pro Display-Bold text-gray-800">{title}</h2>
+          <span className="flex items-center SF Pro Display-Regular space-x-1 text-lg text-black fill-black">
             <img src="images/Star.svg" />
             <span>{rating}</span>
           </span>
         </div>
         {/* then the rest of your fields */}
-        <p className="text-sm text-gray-600 mt-1">{location}</p>
-        <p className="text-sm mt-2 text-gray-500 clamp-3 w-[302px] overflow-hidden ">
+        <p className="text-sm SF Pro Display-Regular text-gray-600 mt-1">
+          {location}
+        </p>
+        <p className="text-sm mt-2  SF Pro Display-Medium text-gray-500 clamp-3 w-[302px] overflow-hidden clamp-3">
           {description}
         </p>
 
-        <div className="mt-2 text-lg text-gray-800">{price} </div>
+        <div className="mt-2 SF Pro Display-Regular text-lg text-gray-800">
+          {price}{" "}
+        </div>
       </div>
     </div>
   );

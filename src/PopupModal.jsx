@@ -1,8 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { supabase } from "./supabaseClient";
+const travelStyleOptions = [
+  "Adventure",
+  "Beach/Relaxation",
+  "Food & Culinary",
+  "Nature & Hiking",
+  "Theme Parks",
+  "Cruise",
+  "Festivals & Events",
+  "Shopping",
+  "Cultural & Historical",
+];
+const tripDurationMap = {
+  short: "Short (1-3 days)",
+  medium: "Medium (4-7 days)",
+  long: "Long (8+ days)",
+};
+const budgetMap = {
+  low: "Low ($100-$500)",
+  medium: "Medium ($500-$2000)",
+  high: "High ($2000+)",
+};
+const climateOptions = ["Warm", "Cold", "Mild", "No Preference"];
+const companionOptions = ["Solo", "Family", "Friends", "Partner", "Group Tour"];
+const transportOptions = ["Flight", "Train", "Road Trip", "Cruise"];
+const accommodationOptions = ["Hotel", "Villa", "Camping", "Hostel", "Resort"];
+const interestOptions = [
+  "Arts & Museums",
+  "Music & Nightlife",
+  "Fitness & Wellness",
+  "Literature & Bookstores",
+  "Wildlife & Safari",
+  "Sports & Outdoor Activities",
+];
 
-const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
+// helper to title‑case arbitrary strings
+function titleCase(str = "") {
+  return str
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+const TravelModal = ({
+  isOpen,
+  onClose,
+  setRecommendations,
+  user,
+  destinationsList,
+}) => {
   const [step, setStep] = useState(1);
   const [selectedPreferences, setSelectedPreferences] = useState({
     travelStyle: null,
@@ -10,6 +56,12 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
     budget: null,
     climate: null,
   });
+  // at the top of TravelModal component:
+  const [pastSuggestions, setPastSuggestions] = useState([]);
+  const allNames = destinationsList.map((d) => d.name); // array of strings
+
+  const [leastSuggestions, setLeastSuggestions] = useState([]);
+  const [favSuggestions, setFavSuggestions] = useState([]);
   const [selectedCompanions, setSelectedCompanions] = useState([]);
   const [destinations, setDestinations] = useState({
     past: [],
@@ -21,6 +73,81 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
     favorite: "",
     leastFavorite: "",
   });
+  useEffect(() => {
+    if (!isOpen || !user) return;
+
+    (async () => {
+      const { data: pref, error } = await supabase
+        .from("travel_preferences")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+      if (error || !pref) {
+        console.log("No saved preferences for this user.");
+        return;
+      }
+
+      // 1) Preferences step
+      setSelectedPreferences({
+        travelStyle:
+          travelStyleOptions.find(
+            (o) => o.toLowerCase() === pref.favorite_travel_style
+          ) || null,
+        tripDuration: tripDurationMap[pref.trip_duration] || null,
+        budget: budgetMap[pref.budget_range] || null,
+        climate:
+          climateOptions.find((o) => o.toLowerCase() === pref.climate) || null,
+      });
+
+      // 2) Companions
+      setSelectedCompanions(
+        (pref.travel_companions || "")
+          .split(",")
+          .map((low) =>
+            companionOptions.find((o) => o.toLowerCase() === low.trim())
+          )
+          .filter(Boolean)
+      );
+
+      // 3) Destinations
+      setDestinations({
+        past: (pref.past_destinations_visited || "")
+          .split(",")
+          .map(titleCase)
+          .filter(Boolean),
+        favorite: (pref.favorite_past_trip || "")
+          .split(",")
+          .map(titleCase)
+          .filter(Boolean),
+        leastFavorite: (pref.least_favorite_trip || "")
+          .split(",")
+          .map(titleCase)
+          .filter(Boolean),
+      });
+
+      // 4) Transport / Accommodation / Interests
+      setSelectedTransport(
+        transportOptions.find(
+          (o) => o.toLowerCase() === pref.preferred_transport
+        ) || null
+      );
+      setSelectedAccommodation(
+        accommodationOptions.find(
+          (opt) => opt.toLowerCase() === pref.preferred_accommodation_type
+        ) || null
+      );
+      setSelectedInterest(
+        interestOptions.find(
+          (o) =>
+            o.toLowerCase() ===
+            (pref.top_interests_activities || "").split(",")[0]
+        ) || null
+      );
+    })();
+  }, [isOpen, user]);
+
+  // ───── helpers ────────────────────────────────────────────────────
 
   const toggleCompanion = (companion) => {
     setSelectedCompanions((prev) =>
@@ -132,23 +259,38 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
       preferred_accommodation_type: payload.accommodation[0] || null, // ← exact column name
       top_interests_activities: payload.interests.join(","),
     };
-    const { data: inserted, error: prefErr } = await supabase
+    const { data: existing, error: selectErr } = await supabase
       .from("travel_preferences")
-      .insert(prefRecord);
-    if (prefErr) {
-      console.error("Pref insert error:", {
-        message: prefErr.message,
-        code: prefErr.code,
-        details: prefErr.details,
-        hint: prefErr.hint,
-      });
-    } else {
-      console.log("Preferences saved:", inserted);
+      .select("user_id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (selectErr && selectErr.code !== "PGRST116") {
+      // PGRST116 is “no rows found” when using .single()
+      console.error("Error checking for existing prefs:", selectErr);
     }
-    if (prefErr) {
-      console.error("Failed to save preferences:", prefErr, user.id);
+
+    if (existing) {
+      // user already has a row → update it
+      const { data: updated, error: updateErr } = await supabase
+        .from("travel_preferences")
+        .update(prefRecord)
+        .eq("user_id", user.id);
+      if (updateErr) {
+        console.error("Failed to update preferences:", updateErr);
+      } else {
+        console.log("Preferences updated:", updated);
+      }
     } else {
-      console.log("Preferences saved for user", user.id);
+      // no existing row → insert new
+      const { data: inserted, error: insertErr } = await supabase
+        .from("travel_preferences")
+        .insert(prefRecord);
+      if (insertErr) {
+        console.error("Failed to insert preferences:", insertErr);
+      } else {
+        console.log("Preferences inserted:", inserted);
+      }
     }
     const result = await sendToRecommendationAPI(payload);
     if (result) {
@@ -352,103 +494,62 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
                 </div>
 
                 {/* Least Favorite Trip */}
-                <div className="mb-6 text-left w-1/2">
+                <div className="mb-6 mr-4 pr-20 text-left relative">
                   <h3 className="text-lg font-medium mb-2">
                     Least Favorite Trip
                   </h3>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Search Destination"
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2"
-                      value={searchInputs.leastFavorite}
-                      onChange={(e) =>
-                        setSearchInputs((prev) => ({
-                          ...prev,
-                          leastFavorite: e.target.value,
-                        }))
-                      }
-                      onKeyPress={(e) => handleKeyPress(e, "leastFavorite")}
-                    />
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {destinations.leastFavorite.map((destination, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center bg-gray-100 rounded-lg px-4 py-1"
+                  <input
+                    type="text"
+                    placeholder="Pick from past destinations"
+                    className="w-full border border-gray-300 rounded-lg px-2 py-2"
+                    value={searchInputs.leastFavorite}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSearchInputs((prev) => ({
+                        ...prev,
+                        leastFavorite: val,
+                      }));
+                      setLeastSuggestions(
+                        destinations.past.filter((name) =>
+                          name.toLowerCase().includes(val.toLowerCase())
+                        )
+                      );
+                    }}
+                    onFocus={() => {
+                      setLeastSuggestions(destinations.past);
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => setLeastSuggestions([]), 100);
+                    }}
+                    onKeyPress={(e) => handleKeyPress(e, "leastFavorite")}
+                  />
+
+                  {leastSuggestions.length > 0 && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md mt-1 max-h-40 overflow-auto">
+                      {leastSuggestions.map((name) => (
+                        <li
+                          key={name}
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => {
+                            setDestinations((prev) => ({
+                              ...prev,
+                              leastFavorite: [...prev.leastFavorite, name],
+                            }));
+                            setSearchInputs((prev) => ({
+                              ...prev,
+                              leastFavorite: "",
+                            }));
+                            setLeastSuggestions([]);
+                          }}
                         >
-                          <span className="text-sm">{destination}</span>
-                          <button
-                            onClick={() =>
-                              handleRemoveDestination("leastFavorite", index)
-                            }
-                            className="ml-2 text-gray-500 hover:text-gray-700"
-                          >
-                            ✕
-                          </button>
-                        </div>
+                          {name}
+                        </li>
                       ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    </ul>
+                  )}
 
-              {/* Past Destinations Visited */}
-              <div className="mb-6 text-left">
-                <h3 className="text-lg font-medium mb-2">
-                  Past Destinations Visited
-                </h3>
-                <div className="relative w-1/2">
-                  <input
-                    type="text"
-                    placeholder="Search Destination"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2"
-                    value={searchInputs.past}
-                    onChange={(e) =>
-                      setSearchInputs((prev) => ({
-                        ...prev,
-                        past: e.target.value,
-                      }))
-                    }
-                    onKeyPress={(e) => handleKeyPress(e, "past")}
-                  />
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {destinations.past.map((destination, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center bg-gray-100 rounded-lg px-4 py-1"
-                      >
-                        <span className="text-sm">{destination}</span>
-                        <button
-                          onClick={() => handleRemoveDestination("past", index)}
-                          className="ml-2 text-gray-500 hover:text-gray-700"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Favorite Past Trip */}
-              <div className="mb-6 text-left">
-                <h3 className="text-lg font-medium mb-2">Favorite Past Trip</h3>
-                <div className="relative w-1/2">
-                  <input
-                    type="text"
-                    placeholder="Search Destination"
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2"
-                    value={searchInputs.favorite}
-                    onChange={(e) =>
-                      setSearchInputs((prev) => ({
-                        ...prev,
-                        favorite: e.target.value,
-                      }))
-                    }
-                    onKeyPress={(e) => handleKeyPress(e, "favorite")}
-                  />
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {destinations.favorite.map((destination, index) => (
+                    {destinations.leastFavorite.map((destination, index) => (
                       <div
                         key={index}
                         className="flex items-center bg-gray-100 rounded-lg px-4 py-1"
@@ -456,7 +557,7 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
                         <span className="text-sm">{destination}</span>
                         <button
                           onClick={() =>
-                            handleRemoveDestination("favorite", index)
+                            handleRemoveDestination("leastFavorite", index)
                           }
                           className="ml-2 text-gray-500 hover:text-gray-700"
                         >
@@ -465,6 +566,150 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+
+              {/* Past Destinations Visited */}
+              <div className="mb-6 text-left relative">
+                <h3 className="text-lg font-medium mb-2">
+                  Past Destinations Visited
+                </h3>
+
+                <input
+                  type="text"
+                  placeholder="Search Destination"
+                  className="w-1/2 border border-gray-300 rounded-lg px-4 py-2"
+                  value={searchInputs.past}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchInputs((prev) => ({ ...prev, past: val }));
+                    // filter suggestions as you type
+                    setPastSuggestions(
+                      allNames.filter((name) =>
+                        name.toLowerCase().includes(val.toLowerCase())
+                      )
+                    );
+                  }}
+                  onFocus={() => {
+                    // when they focus, show all suggestions
+                    setPastSuggestions(allNames);
+                  }}
+                  onBlur={() => {
+                    // delay hiding so click can register
+                    setTimeout(() => setPastSuggestions([]), 100);
+                  }}
+                  onKeyPress={(e) => handleKeyPress(e, "past")}
+                />
+
+                {/* suggestion dropdown */}
+                {pastSuggestions.length > 0 && (
+                  <ul className="absolute z-10 w-1/2 bg-white border border-gray-200 rounded-md mt-1 max-h-48 overflow-auto">
+                    {pastSuggestions.map((name) => (
+                      <li
+                        key={name}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          // add it to your list & clear the input + suggestions
+                          setDestinations((prev) => ({
+                            ...prev,
+                            past: [...prev.past, name],
+                          }));
+                          setSearchInputs((prev) => ({ ...prev, past: "" }));
+                          setPastSuggestions([]);
+                        }}
+                      >
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {/* show chips for already‑added */}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {destinations.past.map((destination, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center bg-gray-100 rounded-lg px-4 py-1"
+                    >
+                      <span className="text-sm">{destination}</span>
+                      <button
+                        onClick={() => handleRemoveDestination("past", index)}
+                        className="ml-2 text-gray-500 hover:text-gray-700"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Favorite Past Trip */}
+              <div className="mb-6 text-left relative">
+                <h3 className="text-lg font-medium mb-2">Favorite Past Trip</h3>
+                <input
+                  type="text"
+                  placeholder="Pick from past destinations"
+                  className="w-1/2 border border-gray-300 rounded-lg px-4 py-2"
+                  value={searchInputs.favorite}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setSearchInputs((prev) => ({ ...prev, favorite: val }));
+                    setFavSuggestions(
+                      destinations.past.filter((name) =>
+                        name.toLowerCase().includes(val.toLowerCase())
+                      )
+                    );
+                  }}
+                  onFocus={() => {
+                    setFavSuggestions(destinations.past);
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => setFavSuggestions([]), 100);
+                  }}
+                  onKeyPress={(e) => handleKeyPress(e, "favorite")}
+                />
+
+                {favSuggestions.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-md mt-1 max-h-40 overflow-auto">
+                    {favSuggestions.map((name) => (
+                      <li
+                        key={name}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={() => {
+                          setDestinations((prev) => ({
+                            ...prev,
+                            favorite: [...prev.favorite, name],
+                          }));
+                          setSearchInputs((prev) => ({
+                            ...prev,
+                            favorite: "",
+                          }));
+                          setFavSuggestions([]);
+                        }}
+                      >
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {destinations.favorite.map((destination, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center bg-gray-100 rounded-lg px-4 py-1"
+                    >
+                      <span className="text-sm">{destination}</span>
+                      <button
+                        onClick={() =>
+                          handleRemoveDestination("favorite", index)
+                        }
+                        className="ml-2 text-gray-500 hover:text-gray-700"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -587,7 +832,10 @@ const TravelModal = ({ isOpen, onClose, setRecommendations }) => {
                   personalized travel recommendations
                 </p>
                 <button
-                  onClick={onClose}
+                  onClick={() => {
+                    setStep(2);
+                    onClose();
+                  }}
                   className="px-6 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-500 hover:text-white transition"
                 >
                   Start Exploring
