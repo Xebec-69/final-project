@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const IconScroll = () => {
+const IconScroll = ({ onTagSelect }) => {
   const scrollContainer = useRef(null);
   const [itemWidth, setItemWidth] = useState(78);
   const icons = [
@@ -134,7 +134,7 @@ const IconScroll = () => {
           className="h-6 w-6"
         />
       ),
-      label: "Amazing pools",
+      label: "Villa",
     },
     {
       icon: (
@@ -212,7 +212,8 @@ const IconScroll = () => {
         {icons.map((item, index) => (
           <div
             key={index}
-            className="flex flex-col items-center min-w-[70px] flex-shrink-0"
+            className="flex flex-col items-center min-w-[70px] flex-shrink-0 cursor-pointer"
+            onClick={() => onTagSelect(item.label)}
           >
             <img
               src={item.icon.props.src}

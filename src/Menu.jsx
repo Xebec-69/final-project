@@ -167,9 +167,6 @@ export default function Menu({
           ) : (
             <CircleUser className="text-white w-6 h-6" />
           )}
-          <div className="absolute top-0 right-0 bg-orange-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-            1
-          </div>
         </div>
       </button>
 

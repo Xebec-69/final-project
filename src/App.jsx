@@ -41,6 +41,11 @@ export default function App() {
   const [loadingDest, setLoadingDest] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuAuthMode, setMenuAuthMode] = useState(null);
+  const [selectedType, setselectedType] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   const handleLegacyClick = async () => {
     if (!user) {
       // not logged in → prompt signup/login
@@ -134,7 +139,84 @@ export default function App() {
     loadDestinations();
     // Click handler for Legacy button
   }, []);
+  useEffect(() => {
+    async function loadDestinations() {
+      setLoadingDest(true);
 
+      let q = supabase
+        .from("destinations")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (selectedType) {
+        // filter by your accommodation_type column
+        q = q.eq("accommodation_type", selectedType);
+      }
+
+      const { data, error } = await q;
+      if (error) console.error("could not load destinations:", error);
+      else setDestinations(data);
+
+      setLoadingDest(false);
+    }
+
+    loadDestinations();
+  }, [selectedType]);
+  useEffect(() => {
+    async function loadDestinations() {
+      setLoadingDest(true);
+      let q = supabase
+        .from("destinations")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (searchQuery) {
+        q = q.ilike("name", `%${searchQuery}%`);
+      }
+      if (selectedType) {
+        q = q.eq("accommodation_type", selectedType);
+      }
+
+      const { data, error } = await q;
+      if (error) console.error(error);
+      else setDestinations(data);
+      setLoadingDest(false);
+    }
+    loadDestinations();
+  }, [searchQuery, selectedType]);
+  useEffect(() => {
+    async function loadDestinations() {
+      setLoadingDest(true);
+
+      let q = supabase
+        .from("destinations")
+        .select("*")
+        .order("id", { ascending: true });
+
+      if (searchQuery) {
+        q = q.ilike("name", `%${searchQuery}%`);
+      }
+
+      const { data, error } = await q;
+      if (error) console.error("Supabase error:", error);
+      else setDestinations(data);
+
+      setLoadingDest(false);
+    }
+    loadDestinations();
+  }, [searchQuery]);
+
+  // handle a tag click: record it, then filter
+  const handleTagSelect = async (tag) => {
+    setselectedType(tag);
+    if (!user) return;
+    const { error } = await supabase.from("user_tag_clicks").insert({
+      user_id: user.id,
+      tag,
+      clicked_at: new Date().toISOString(),
+    });
+    if (error) console.error("could not save tag click:", error);
+  };
   return (
     <>
       {/* Header */}
@@ -146,7 +228,7 @@ export default function App() {
           </span>
           <span className="mx-2 text-gray-400">|</span>
           <button className="text-customOrange font-semibold text-sm sm:text-base">
-            Be come partnar
+            Be come partner
           </button>
         </div>
         <Menu
@@ -161,36 +243,74 @@ export default function App() {
 
       {/* Search Bar */}
       <div className="flex justify-center items-center mt-4 px-2 sm:px-6">
-        <div className="shadow w-full sm:w-4/5 md:w-3/4 lg:w-1/2 rounded-[121px] bg-white px-4 sm:px-8 py-4 sm:py-6 flex flex-wrap justify-between items-center gap-4">
-          <div>
+        <div className="shadow w-full sm:w-4/5 md:w-3/4 lg:w-1/2 rounded-[121px] bg-white px-4 sm:px-8 py-4 sm:py-6 flex items-center gap-4">
+          {/* 1) Input + dropdown container */}
+          <div className="relative flex-1">
             <p className="font-medium text-sm sm:text-base">Where</p>
-            <p className="text-xs opacity-50">Search Destination</p>
+            <input
+              type="text"
+              placeholder="Search Destination"
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearchQuery(searchInput);
+                  setShowSuggestions(false);
+                }
+              }}
+              onBlur={() => {
+                // small delay so click on suggestion still fires
+                setTimeout(() => setShowSuggestions(false), 100);
+              }}
+              className="w-full text-xs opacity-80 focus:outline-none"
+            />
+
+            {/* 2) Dropdown suggestions */}
+            {showSuggestions && searchInput && (
+              <ul className="absolute z-10 left-0 right-0 mt-1 bg-white border rounded-md max-h-40 overflow-auto">
+                {destinations
+                  .filter((d) =>
+                    d.name.toLowerCase().includes(searchInput.toLowerCase())
+                  )
+                  .slice(0, 5) // limit
+                  .map((d) => (
+                    <li
+                      key={d.id}
+                      onMouseDown={() => {
+                        setSearchInput(d.name);
+                        setSearchQuery(d.name);
+                        setShowSuggestions(false);
+                      }}
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-left"
+                    >
+                      {d.name}
+                    </li>
+                  ))}
+              </ul>
+            )}
           </div>
-          <div className="h-8 sm:h-12 w-px bg-gray-300" />
-          <div>
-            <p className="font-medium text-sm sm:text-base">Check in</p>
-            <p className="text-xs opacity-50">Add dates</p>
-          </div>
-          <div className="h-8 sm:h-12 w-px bg-gray-300" />
-          <div>
-            <p className="font-medium text-sm sm:text-base">Check out</p>
-            <p className="text-xs opacity-50">Add dates</p>
-          </div>
-          <div className="h-8 sm:h-12 w-px bg-gray-300" />
-          <div>
-            <p className="font-medium text-sm sm:text-base">Who</p>
-            <p className="text-xs opacity-50">Add guests</p>
-          </div>
-          <div className="bg-customOrange p-3 rounded-full">
+
+          {/* 3) Search button on the right */}
+          <button
+            className="bg-customOrange p-3 rounded-full flex-shrink-0"
+            onClick={() => {
+              setSearchQuery(searchInput);
+              setShowSuggestions(false);
+            }}
+          >
             <Search width={20} height={20} className="text-white" />
-          </div>
+          </button>
         </div>
       </div>
 
       {/* Listings Header */}
       <div className="  p-10 sm:p-10">
         <div className="flex flex-wrap gap-2">
-          <IconScroll />
+          <IconScroll onTagSelect={handleTagSelect} />
           <PopupModal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
